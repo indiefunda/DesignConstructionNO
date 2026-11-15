@@ -1,0 +1,43 @@
+---
+import { copy } from '../data/copy';
+import type { Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const process = c.home.process;
+---
+
+<section class="process section">
+  <div class="wrap process__grid">
+    <div class="process__head" data-reveal>
+      <p class="index-label">
+        <b>{process.index}</b>
+        <span>— {process.kicker}</span>
+      </p>
+      <h2 class="display-m" style="margin-top:.9rem">{process.title}</h2>
+      <p
+        style="margin-top:1rem;color:var(--muted-dark);font-size:.98rem;line-height:1.6;max-width:30ch"
+      >
+        {process.lead}
+      </p>
+    </div>
+
+    <ol class="process__list">
+      {
+        process.steps.map((step, index) => (
+          <li class="process__step" data-reveal style={`--d:${index * 90}ms`}>
+            <span class="process__num">{step.n}</span>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

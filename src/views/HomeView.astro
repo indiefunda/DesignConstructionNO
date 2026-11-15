@@ -1,0 +1,66 @@
+---
+import Closer from '../components/Closer.astro';
+import Hero from '../components/Hero.astro';
+import Icon from '../components/Icon.astro';
+import Marquee from '../components/Marquee.astro';
+import People from '../components/People.astro';
+import Plate from '../components/Plate.astro';
+import Process from '../components/Process.astro';
+import ServiceList from '../components/ServiceList.astro';
+import Trust from '../components/Trust.astro';
+import { copy } from '../data/copy';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const h = c.home;
+---
+
+<Hero lang={lang} />
+<Marquee items={h.marquee} />
+
+<section class="manifesto section">
+  <div class="wrap">
+    <div class="manifesto__grid">
+      <div data-reveal>
+        <p class="index-label">
+          <b>{h.manifesto.index}</b>
+          <span>— {h.manifesto.kicker}</span>
+        </p>
+        <h2 class="manifesto__title" style="margin-top:1rem">{h.manifesto.title}</h2>
+        <p class="manifesto__highlight">{h.manifesto.highlight}</p>
+        <a class="link-arrow manifesto__link" href={pathFor(lang, h.manifesto.link.key)}>
+          {h.manifesto.link.label}
+          <Icon name="arrow-up-right" size={13} />
+        </a>
+      </div>
+
+      <div class="manifesto__body" data-reveal style="--d:120ms">
+        {h.manifesto.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<ServiceList lang={lang} />
+
+<Plate
+  image="facade"
+  imageAlt={h.featured.caption}
+  quote={h.featured.quote}
+  caption={h.featured.caption}
+  href={pathFor(lang, h.featured.link.key)}
+  linkLabel={h.featured.link.label}
+/>
+
+<Process lang={lang} />
+
+<Trust lang={lang} />
+
+<People lang={lang} />
+
+<Closer lang={lang} />

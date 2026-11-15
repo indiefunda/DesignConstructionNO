@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { copy } from '../data/copy';
+import { pathFor, site } from '../data/site';
+
+const lang = 'nb' as const;
+const c = copy[lang];
+const n = c.notFound;
+
+const links = [
+  { label: c.nav.services, href: pathFor(lang, 'services') },
+  { label: c.nav.gallery, href: pathFor(lang, 'gallery') },
+  { label: c.nav.about, href: pathFor(lang, 'about') },
+  { label: c.nav.contact, href: pathFor(lang, 'contact') },
+];
+---
+
+<Base
+  lang={lang}
+  title={n.title}
+  description={n.lead}
+  noindex
+  image="/og-nb.jpg"
+>
+  <section class="notfound">
+    <div class="notfound__inner wrap">
+      <p class="notfound__code">404</p>
+      <h1>{n.title}</h1>
+      <p>{n.lead}</p>
+      <a class="btn btn--clay" href={pathFor(lang, 'home')}>
+        {n.cta}
+        <Icon name="arrow-right" size={14} />
+      </a>
+
+      <ul style="display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;justify-content:center;margin-top:1.4rem;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-dark)">
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href} style="border-bottom:1px solid var(--line-dark-strong);padding-bottom:.15rem">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,74 @@
+---
+import Closer from '../components/Closer.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import { copy } from '../data/copy';
+import { services } from '../data/services';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const s = c.servicesPage;
+---
+
+<PageHero
+  lang={lang}
+  kicker={s.kicker}
+  titleLines={s.titleLines}
+  lead={s.lead}
+  crumbs={[{ label: c.nav.services }]}
+/>
+
+<section class="section">
+  <div class="wrap">
+    <div class="svc-index">
+      {
+        services.map((service, index) => (
+          <article class="svc-card" data-reveal style={`--d:${index * 60}ms`}>
+            <div class="svc-card__media frame">
+              <Pic
+                name={service.image}
+                alt={service.title[lang]}
+                sizes="(max-width: 860px) 92vw, 44vw"
+                widths={[620, 940, 1260]}
+              />
+            </div>
+
+            <div class="svc-card__body">
+              <div class="svc-card__top">
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <span style="color:var(--muted)">{service.meta[lang]}</span>
+              </div>
+              <h2>{service.title[lang]}</h2>
+              <p>{service.lead[lang]}</p>
+              <ul class="svc-card__list">
+                {
+                  service.bullets[lang]
+                    .filter((bullet) => bullet.length <= 42)
+                    .slice(0, 3)
+                    .map((bullet) => <li>{bullet}</li>)
+                }
+              </ul>
+              <a class="link-arrow" href={pathFor(lang, `service:${service.id}`)}>
+                {c.ui.viewService}
+                <Icon name="arrow-up-right" size={13} />
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="prose" style="margin-top:clamp(1.8rem,3vw,2.6rem)" data-reveal>
+      <span>{s.body}</span>
+      <strong style="font-weight:500;color:var(--ink)">{s.undertake}</strong>
+    </p>
+  </div>
+</section>
+
+<Closer lang={lang} />

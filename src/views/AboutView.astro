@@ -1,0 +1,86 @@
+---
+import Closer from '../components/Closer.astro';
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import { copy } from '../data/copy';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const a = c.about;
+---
+
+<PageHero
+  lang={lang}
+  kicker={a.kicker}
+  titleLines={a.titleLines}
+  lead={a.lead}
+  crumbs={[{ label: c.nav.about }]}
+/>
+
+<section class="section">
+  <div class="wrap about__intro">
+    <div data-reveal>
+      <figure class="about__figure frame frame--ticks" style="margin:0">
+        <Pic
+          name="facade"
+          alt={`${c.home.featured.caption} — ${a.kicker}`}
+          sizes="(max-width: 980px) 92vw, 42vw"
+          widths={[720, 1080, 1400]}
+        />
+      </figure>
+    </div>
+
+    <div class="about__body" data-reveal style="--d:100ms">
+      {a.body.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </div>
+</section>
+
+<section class="quote-band">
+  <div class="wrap">
+    <blockquote data-reveal>{a.quote}</blockquote>
+    <p class="quote-band__cite" data-reveal style="--d:120ms">Design Construction — {a.kicker}</p>
+  </div>
+</section>
+
+<section class="section--tight" style="padding-top:clamp(2.5rem,5vw,4rem)">
+  <div class="wrap">
+    <p class="eyebrow" style="margin-bottom:1.2rem">{a.factsLabel}</p>
+    <ul class="facts" data-reveal>
+      {
+        a.facts.map((fact) => (
+          <li>
+            <k>{fact.k}</k>
+            <span>{fact.v}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="display-m" style="max-width:22ch;margin-bottom:clamp(1.6rem,3vw,2.6rem)" data-reveal>
+      {a.valuesTitle}
+    </h2>
+    <ul class="values" data-reveal style="--d:80ms">
+      {
+        a.values.map((value, index) => (
+          <li>
+            <b>{String(index + 1).padStart(2, '0')}</b>
+            <h3>{value.title}</h3>
+            <p>{value.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<Closer lang={lang} />

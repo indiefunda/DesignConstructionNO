@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.astro';
+import Pic from './Pic.astro';
+import { copy } from '../data/copy';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const section = c.home.staff;
+const members = c.staffPage.members;
+---
+
+<section class="people section">
+  <div class="wrap people__grid">
+    <div data-reveal>
+      <p class="index-label">
+        <b>{section.index}</b>
+        <span>— {section.kicker}</span>
+      </p>
+      <h2 class="display-m" style="margin-top:.9rem">{section.title}</h2>
+      <p style="margin-top:1rem;color:var(--muted);font-size:.98rem;line-height:1.6;max-width:34ch">
+        {section.lead}
+      </p>
+      <a class="link-arrow" style="margin-top:1.2rem" href={pathFor(lang, 'staff')}>
+        {section.link.label}
+        <Icon name="arrow-up-right" size={13} />
+      </a>
+    </div>
+
+    <div class="people__cards">
+      {
+        members.map((member, index) => (
+          <article class="person" data-reveal style={`--d:${index * 100}ms`}>
+            <div class="person__img frame">
+              <Pic name={member.image} alt={member.name} sizes="(max-width: 860px) 44vw, 22vw" />
+            </div>
+            <h3>{member.name}</h3>
+            <p>{member.role}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

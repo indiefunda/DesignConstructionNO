@@ -1,0 +1,80 @@
+---
+import Pic from './Pic.astro';
+import { copy } from '../data/copy';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+  kicker: string;
+  titleLines: string[];
+  lead?: string;
+  /** Breadcrumb trail after Home. */
+  crumbs?: { label: string; href?: string }[];
+  image?: string;
+  imageAlt?: string;
+  /**
+   * Index of the line set in italic clay. Defaults to the last line, which is
+   * where the phrase lands hardest in all three languages.
+   */
+  accentLine?: number;
+}
+
+const {
+  lang,
+  kicker,
+  titleLines,
+  lead,
+  crumbs = [],
+  image,
+  imageAlt,
+  accentLine = titleLines.length - 1,
+} = Astro.props;
+
+const c = copy[lang];
+---
+
+<section class="page-hero">
+  <div class:list={['wrap', 'page-hero__grid', { 'page-hero__grid--media': Boolean(image) }]}>
+    <div class="page-hero__main">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href={pathFor(lang, 'home')}>{c.ui.home}</a>
+        {
+          crumbs.map((crumb) => (
+            <>
+              <i aria-hidden="true">/</i>
+              {crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span>{crumb.label}</span>}
+            </>
+          ))
+        }
+      </nav>
+
+      <p class="eyebrow" style="margin-top:1.4rem">{kicker}</p>
+
+      <h1 class="page-hero__title">
+        {
+          titleLines.map((line, index) => (
+            <span class="line-mask">
+              <span>{index === accentLine ? <em>{line}</em> : line}</span>
+            </span>
+          ))
+        }
+      </h1>
+
+      {lead && <p class="page-hero__lead">{lead}</p>}
+    </div>
+
+    {
+      image && (
+        <figure class="page-hero__media frame frame--ticks">
+          <Pic
+            name={image}
+            alt={imageAlt ?? ''}
+            sizes="(max-width: 980px) 92vw, 38vw"
+            widths={[620, 940, 1260]}
+            priority
+          />
+        </figure>
+      )
+    }
+  </div>
+</section>

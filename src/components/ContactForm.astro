@@ -1,0 +1,159 @@
+---
+import Icon from './Icon.astro';
+import { copy } from '../data/copy';
+import { site, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const f = c.contactPage.form;
+---
+
+<form class="contact-form" data-contact-form novalidate>
+  <div class="form-grid">
+    <div class="field">
+      <label for="cf-name">
+        {f.name} <span class="req" title={f.required}>*</span>
+      </label>
+      <input id="cf-name" name="name" type="text" autocomplete="name" required />
+    </div>
+
+    <div class="field">
+      <label for="cf-phone">
+        {f.phone} <span class="req" title={f.required}>*</span>
+      </label>
+      <input id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+    </div>
+
+    <div class="field">
+      <label for="cf-email">
+        {f.email} <span class="req" title={f.required}>*</span>
+      </label>
+      <input id="cf-email" name="email" type="email" autocomplete="email" required />
+    </div>
+
+    <div class="field">
+      <label for="cf-address">{f.address} <span style="text-transform:none;letter-spacing:0">({f.optional})</span></label>
+      <input id="cf-address" name="address" type="text" autocomplete="street-address" />
+    </div>
+
+    <div class="field field--full">
+      <label for="cf-subject">{f.subject}</label>
+      <select id="cf-subject" name="subject">
+        <option value="" selected>{f.choose}</option>
+        {f.subjects.map((subject) => <option value={subject}>{subject}</option>)}
+      </select>
+    </div>
+
+    <div class="field field--full">
+      <label for="cf-message">
+        {f.message} <span class="req" title={f.required}>*</span>
+      </label>
+      <textarea
+        id="cf-message"
+        name="message"
+        required
+        rows="4"
+        placeholder={f.messagePlaceholder}
+        data-placeholder={f.messagePlaceholder}
+      ></textarea>
+    </div>
+
+    <label class="form-consent field--full">
+      <input type="checkbox" name="consent" required />
+      <span>{f.consent}</span>
+    </label>
+  </div>
+
+  <div class="form-submit">
+    <button class="btn" type="submit">
+      {f.send}
+      <Icon name="arrow-up-right" size={14} />
+    </button>
+    <p>{f.note}</p>
+  </div>
+
+  <p class="form-status" role="status" aria-live="polite" data-status></p>
+
+  <noscript>
+    <p class="muted" style="font-size:.85rem;margin-top:.8rem">
+      <a href={`tel:${site.phones[0].tel}`} style="border-bottom:1px solid var(--line-strong)">{site.phones[0].display}</a>
+      ·
+      <a href={`mailto:${site.email}`} style="border-bottom:1px solid var(--line-strong)">{site.email}</a>
+    </p>
+  </noscript>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const status = document.querySelector<HTMLElement>('[data-status]');
+  const lang = document.documentElement.lang;
+
+  const strings: Record<string, { invalid: string; opening: string }> = {
+    nb: {
+      invalid: 'Fyll ut de obligatoriske feltene.',
+      opening: 'E-postprogrammet åpnes med meldingen klar. Hvis det ikke åpner, ring 4634 4342.',
+    },
+    en: {
+      invalid: 'Please complete the required fields.',
+      opening: 'Your email app is opening with the message ready. If it does not open, call 4634 4342.',
+    },
+    el: {
+      invalid: 'Συμπληρώστε τα υποχρεωτικά πεδία.',
+      opening: 'Ανοίγει το πρόγραμμα email σας με το μήνυμα έτοιμο. Αν δεν ανοίξει, καλέστε στο 4634 4342.',
+    },
+  };
+  const s = strings[lang] ?? strings.nb;
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      if (status) status.textContent = s.invalid;
+      return;
+    }
+
+    const data = new FormData(form);
+    const get = (key: string) => String(data.get(key) ?? '').trim();
+    const name = get('name');
+    const phone = get('phone');
+    const email = get('email');
+    const address = get('address');
+    const subject = get('subject');
+    const message = get('message');
+
+    const labels: Record<string, string[]> = {
+      nb: ['Navn', 'Telefon', 'E-post', 'Adresse', 'Emne'],
+      en: ['Name', 'Phone', 'Email', 'Address', 'Subject'],
+      el: ['Όνομα', 'Τηλέφωνο', 'Email', 'Διεύθυνση', 'Θέμα'],
+    };
+    const [lName, lPhone, lEmail, lAddress, lSubject] = labels[lang] ?? labels.nb;
+
+    const body = [
+      `${lName}: ${name}`,
+      `${lPhone}: ${phone}`,
+      `${lEmail}: ${email}`,
+      address ? `${lAddress}: ${address}` : null,
+      subject ? `${lSubject}: ${subject}` : null,
+      '',
+      message,
+    ]
+      .filter((line) => line !== null)
+      .join('\n');
+
+    const subjects: Record<string, string> = {
+      nb: 'Henvendelse fra nettsiden',
+      en: 'Website enquiry',
+      el: 'Αίτημα από τον ιστότοπο',
+    };
+    const mailto = `mailto:info@designconstruction.no?subject=${encodeURIComponent(
+      `${subjects[lang] ?? subjects.nb}${subject ? ` — ${subject}` : ''}`,
+    )}&body=${encodeURIComponent(body)}`;
+
+    if (status) status.textContent = s.opening;
+    window.location.href = mailto;
+  });
+</script>

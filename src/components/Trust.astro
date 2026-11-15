@@ -1,0 +1,38 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import { copy } from '../data/copy';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const trust = c.home.trust;
+---
+
+<section class="trust section">
+  <div class="wrap">
+    <SectionHead
+      index={trust.index}
+      kicker={trust.kicker}
+      title={trust.title}
+      href={pathFor(lang, 'terms')}
+      linkLabel={trust.link.label}
+    />
+
+    <ul class="trust__grid" data-reveal>
+      {
+        trust.items.map((item, index) => (
+          <li class="trust__card">
+            <b>{String(index + 1).padStart(2, '0')}</b>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

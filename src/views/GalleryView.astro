@@ -1,0 +1,194 @@
+---
+import Closer from '../components/Closer.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import manifest from '../data/images.json';
+import { copy } from '../data/copy';
+import { projects } from '../data/projects';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const g = c.galleryPage;
+
+type Source = { w: number; h: number; avif: string; webp: string };
+const big = (name: string) => {
+  const data = (manifest as Record<string, { sources: Source[]; w: number; h: number }>)[name];
+  return `/images/${data.sources[data.sources.length - 1].webp}`;
+};
+
+const sizesBySpan: Record<string, string> = {
+  wide: '(max-width: 860px) 92vw, 66vw',
+  tall: '(max-width: 860px) 46vw, 33vw',
+  normal: '(max-width: 860px) 46vw, 33vw',
+};
+const widthPlan: Record<string, number[]> = {
+  wide: [1080, 1400, 1600],
+  tall: [720, 1080, 1400],
+  normal: [720, 1080, 1400],
+};
+---
+
+<PageHero
+  lang={lang}
+  kicker={g.kicker}
+  titleLines={g.titleLines}
+  lead={g.lead}
+  crumbs={[{ label: c.nav.gallery }]}
+/>
+
+<section class="section">
+  <div class="wrap">
+    <div class="gal-head">
+      <p class="gal-count">
+        {String(projects.length).padStart(2, '0')} {g.countLabel}
+      </p>
+      <a class="link-arrow" href={pathFor(lang, 'contact')}>
+        {c.ui.quote}
+        <Icon name="arrow-up-right" size={13} />
+      </a>
+    </div>
+
+    <div class="gal" data-gal>
+      {
+        projects.map((project, index) => (
+          <button
+            class="gal__item"
+            type="button"
+            data-item
+            data-span={project.span}
+            data-tag={project.tag[lang]}
+            data-index={index}
+            data-title={project.title[lang]}
+            data-place={project.place[lang]}
+            data-note={project.note[lang]}
+            data-src={big(project.image)}
+            aria-label={`${c.ui.openImage}: ${project.title[lang]}`}
+            data-reveal
+            style={`--d:${(index % 4) * 70}ms`}
+          >
+            <Pic
+              name={project.image}
+              alt={`${project.title[lang]} — ${project.place[lang]}`}
+              sizes={sizesBySpan[project.span]}
+              widths={widthPlan[project.span]}
+            />
+            <span class="gal__cap">
+              <span>
+                <b>{project.title[lang]}</b>
+                <small>{project.place[lang]}</small>
+              </span>
+              <span class="gal__tag">{project.tag[lang]}</span>
+            </span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="gal-note">
+      <p>{g.note}</p>
+      <a class="link-arrow" href={pathFor(lang, 'contact')}>
+        {c.ui.quote}
+        <Icon name="arrow-up-right" size={13} />
+      </a>
+    </div>
+  </div>
+</section>
+
+<dialog class="lightbox" data-lightbox aria-label={g.kicker}>
+  <div class="lightbox__inner">
+    <div class="lightbox__top">
+      <p class="lightbox__count" data-lb-count>01 / 08</p>
+      <button class="lightbox__close" type="button" data-lb-close>
+        {c.ui.close}
+        <Icon name="close" size={15} />
+      </button>
+    </div>
+
+    <div class="lightbox__stage">
+      <img data-lb-img src="" alt="" width="1200" height="800" />
+    </div>
+
+    <div class="lightbox__foot">
+      <div class="lightbox__meta">
+        <b data-lb-title></b>
+        <small data-lb-place></small>
+      </div>
+      <div class="lightbox__pager">
+        <button class="lightbox__nav" type="button" data-lb-prev aria-label={c.ui.prev}>
+          <Icon name="arrow-left" size={15} />
+          <span>{c.ui.prev}</span>
+        </button>
+        <button class="lightbox__nav" type="button" data-lb-next aria-label={c.ui.next}>
+          <span>{c.ui.next}</span>
+          <Icon name="arrow-right" size={15} />
+        </button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<Closer lang={lang} />
+
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-gal]');
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-item]'));
+  const visible = items.slice();
+
+  // ---------- Lightbox ----------
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+  const image = document.querySelector<HTMLImageElement>('[data-lb-img]');
+  const title = document.querySelector<HTMLElement>('[data-lb-title]');
+  const place = document.querySelector<HTMLElement>('[data-lb-place]');
+  const counter = document.querySelector<HTMLElement>('[data-lb-count]');
+  let position = 0;
+
+  const render = () => {
+    const item = visible[position];
+    if (!item || !image) return;
+    image.src = item.dataset.src ?? '';
+    image.alt = `${item.dataset.title ?? ''} — ${item.dataset.place ?? ''}`;
+    if (title) title.textContent = item.dataset.title ?? '';
+    if (place) place.textContent = item.dataset.place ?? '';
+    if (counter) {
+      counter.textContent = `${String(position + 1).padStart(2, '0')} / ${String(visible.length).padStart(2, '0')}`;
+    }
+  };
+
+  const step = (delta: number) => {
+    if (!visible.length) return;
+    position = (position + delta + visible.length) % visible.length;
+    render();
+  };
+
+  items.forEach((item) => {
+    item.addEventListener('click', () => {
+      position = Math.max(0, items.indexOf(item));
+      render();
+      dialog?.showModal();
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  document.querySelector('[data-lb-close]')?.addEventListener('click', () => dialog?.close());
+  document.querySelector('[data-lb-prev]')?.addEventListener('click', () => step(-1));
+  document.querySelector('[data-lb-next]')?.addEventListener('click', () => step(1));
+
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  dialog?.addEventListener('close', () => {
+    document.body.style.overflow = '';
+  });
+
+  dialog?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight') step(1);
+    if (event.key === 'ArrowLeft') step(-1);
+  });
+</script>

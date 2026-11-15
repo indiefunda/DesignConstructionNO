@@ -1,0 +1,448 @@
+{
+  "ceiling-dome": {
+    "w": 534,
+    "h": 400,
+    "aspect": 1.335,
+    "lqip": "data:image/webp;base64,UklGRroAAABXRUJQVlA4IK4AAAAwBQCdASoYABIAPulsrlGpJaQiqAgBIB0JYwCdABI6HJVZxVHOE7YUjnxPrSFtCuHk0AD8isfXGyw3m/MfTwFTYwpyBgb3FQbvkp6dh6b09HfJr2u9bw6Jhv3/CURhrcibsuxf+N1tgGCj31nQaZ+bRkleDMhzHuAU+coQulb6kaFWlNI003GsmSq7YvVgroFotPbuPzE2BjDamPhBf9wxq49uRsUmSFhC1TFgAAA=",
+    "width": 534,
+    "height": 400,
+    "sources": [
+      {
+        "w": 520,
+        "h": 390,
+        "avif": "ceiling-dome-520.avif",
+        "webp": "ceiling-dome-520.webp"
+      },
+      {
+        "w": 534,
+        "h": 400,
+        "avif": "ceiling-dome-534.avif",
+        "webp": "ceiling-dome-534.webp"
+      }
+    ]
+  },
+  "ceiling-moulding": {
+    "w": 640,
+    "h": 480,
+    "aspect": 1.3333,
+    "lqip": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAADwBACdASoYABIAPulmrk+pJaSiKAqpIB0JZQCdABCJh0ntHp1Z4oekfK9HPEkhygAA/sVJ0DkxbsMwArddp3lswACLhXcmwVz64BRxRG7BdQw8b1bfjaRBfO4fYAWMxbb1MIB/dwkeiz5iHSIHQn8lH9Qw7ti4eO8v22N76hzl9X8lRWMY17g6wYTDXkNYAAA=",
+    "width": 640,
+    "height": 480,
+    "sources": [
+      {
+        "w": 520,
+        "h": 390,
+        "avif": "ceiling-moulding-520.avif",
+        "webp": "ceiling-moulding-520.webp"
+      },
+      {
+        "w": 640,
+        "h": 480,
+        "avif": "ceiling-moulding-640.avif",
+        "webp": "ceiling-moulding-640.webp"
+      }
+    ]
+  },
+  "demolition": {
+    "w": 800,
+    "h": 600,
+    "aspect": 1.3333,
+    "lqip": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAAAwBQCdASoYABIAPuliqk8pJSOiMBgIASAdCWMAvVgQqT7L9dv7UgjgEQ2bglrxHV4BAAD8TqZZr11WLIqfQyAdVkDUg4FFLJwTibJIIwPRvCDq1+3WbyzTvbg9s3d+R/HaMB1ApQL7Ad8ySs3zo48+ebDNgBKzYJFaIlt2eHMBfnGyBb184lMkbJxQ7DQPLqR4ZW2mTmHNdpnDYRL4jYAA",
+    "width": 800,
+    "height": 600,
+    "sources": [
+      {
+        "w": 520,
+        "h": 390,
+        "avif": "demolition-520.avif",
+        "webp": "demolition-520.webp"
+      },
+      {
+        "w": 780,
+        "h": 585,
+        "avif": "demolition-780.avif",
+        "webp": "demolition-780.webp"
+      },
+      {
+        "w": 800,
+        "h": 600,
+        "avif": "demolition-800.avif",
+        "webp": "demolition-800.webp"
+      }
+    ]
+  },
+  "door-opening": {
+    "w": 1936,
+    "h": 2592,
+    "aspect": 0.7469,
+    "lqip": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABQBQCdASoYACAAPulgpk2pJSMiMBgMASAdCWMAwoAu4v7mCEUtin75+ZdKAN7b/T2SV0AAzTX36plC0nc5l30/CpikQGXF7407NNUTY9vTdTJTsOAa9NjBUfGLDddwyr1eXOwdsUwQ49XZHaAVQCc95G4HiBVioQj7z6tDV3uoMLPfgD+/SWWFujg081rJX9MnkqQiC3boXhy2mO+xHVJcAAA=",
+    "width": 1040,
+    "height": 1392,
+    "sources": [
+      {
+        "w": 520,
+        "h": 696,
+        "avif": "door-opening-520.avif",
+        "webp": "door-opening-520.webp"
+      },
+      {
+        "w": 780,
+        "h": 1044,
+        "avif": "door-opening-780.avif",
+        "webp": "door-opening-780.webp"
+      },
+      {
+        "w": 1040,
+        "h": 1392,
+        "avif": "door-opening-1040.avif",
+        "webp": "door-opening-1040.webp"
+      }
+    ]
+  },
+  "door-white": {
+    "w": 400,
+    "h": 600,
+    "aspect": 0.6667,
+    "lqip": "data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAACwBQCdASoYACQAPuFWpk0opKOiNVv4ARAcCUAY/IMLDW+GNr3PvX2a1myAOu9A/PGxjibOViAA/uB2WnFKEdHGgBn1V8RTPkThliFt5rB5fIsd3SVJyBpMU/RYQLGtugZ2bG1am2S2AWwTZ27lma5oeVVv7xMe5csnpqaTY16jq7GVX+bJ0LKKNBuRRWGi9QPAAA==",
+    "width": 400,
+    "height": 600,
+    "sources": [
+      {
+        "w": 400,
+        "h": 600,
+        "avif": "door-white-400.avif",
+        "webp": "door-white-400.webp"
+      }
+    ]
+  },
+  "facade": {
+    "w": 3264,
+    "h": 2448,
+    "aspect": 1.3333,
+    "lqip": "data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAABQBQCdASoYABIAPulmqlCpJSOiqAqpIB0JYwDE2BGh8hCdgms5qJiCbFQzvoqFTO4ZhMAA/trWGFxvlkbIUK2nAfqGISueDfTw4MiUaDk5dBeyyiyGp9efrDbqjzwbD7F1wlCVbxbttXJeIoo+nxfCuZYziNTRSa+vkZ6lhb+Du+zPzHrtmQRsjW0D9lpnk594b/BPIefe1fzCg0ZuaE6//QEKq0AAAAA=",
+    "width": 1800,
+    "height": 1350,
+    "sources": [
+      {
+        "w": 720,
+        "h": 540,
+        "avif": "facade-720.avif",
+        "webp": "facade-720.webp"
+      },
+      {
+        "w": 1080,
+        "h": 810,
+        "avif": "facade-1080.avif",
+        "webp": "facade-1080.webp"
+      },
+      {
+        "w": 1400,
+        "h": 1050,
+        "avif": "facade-1400.avif",
+        "webp": "facade-1400.webp"
+      },
+      {
+        "w": 1800,
+        "h": 1350,
+        "avif": "facade-1800.avif",
+        "webp": "facade-1800.webp"
+      }
+    ]
+  },
+  "hero-attic": {
+    "w": 1600,
+    "h": 1067,
+    "aspect": 1.4995,
+    "lqip": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAAAQBACdASoYABAAPulep00pJSOiMAgBIB0JQBOgAlbhbRCB2G0RqWSpwADe1vJjOv9+BwUcxVS1IMWMFfxicpK8kfVMkTvt9SVSSSLF1JJZ64CMh+g55jAsIVMzlcYd9VBI5CTA3gtn2fPqDpoQTqiVxNl+hvnQ7wnJGoXEg3x6QCGMqtsV/nKatlVwER/AO/zV0aZewAA=",
+    "width": 1600,
+    "height": 1067,
+    "sources": [
+      {
+        "w": 720,
+        "h": 480,
+        "avif": "hero-attic-720.avif",
+        "webp": "hero-attic-720.webp"
+      },
+      {
+        "w": 1080,
+        "h": 720,
+        "avif": "hero-attic-1080.avif",
+        "webp": "hero-attic-1080.webp"
+      },
+      {
+        "w": 1400,
+        "h": 934,
+        "avif": "hero-attic-1400.avif",
+        "webp": "hero-attic-1400.webp"
+      },
+      {
+        "w": 1600,
+        "h": 1067,
+        "avif": "hero-attic-1600.avif",
+        "webp": "hero-attic-1600.webp"
+      }
+    ]
+  },
+  "painting-ladder": {
+    "w": 1698,
+    "h": 1131,
+    "aspect": 1.5013,
+    "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAACQAwCdASoYABAAPulgqE0pJaOiMAgBIB0JYgAAW5sdHzXBqnoUAP7TSHTqBPf/+OVNXyOU7nRNyF2rA8KNg3mOGw8ToP/e9LXH5oybfJ+HGq1RYzhgbNUkPelmAAAA",
+    "width": 1260,
+    "height": 839,
+    "sources": [
+      {
+        "w": 620,
+        "h": 413,
+        "avif": "painting-ladder-620.avif",
+        "webp": "painting-ladder-620.webp"
+      },
+      {
+        "w": 940,
+        "h": 626,
+        "avif": "painting-ladder-940.avif",
+        "webp": "painting-ladder-940.webp"
+      },
+      {
+        "w": 1260,
+        "h": 839,
+        "avif": "painting-ladder-1260.avif",
+        "webp": "painting-ladder-1260.webp"
+      }
+    ]
+  },
+  "plaster-detail": {
+    "w": 800,
+    "h": 600,
+    "aspect": 1.3333,
+    "lqip": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAABwBACdASoYABIAPulmrVApJSQiqAqpIB0JZwDH5A0XXuBvLJtMSdycDO7xAAD+W3Ba57DJyGJ5EiBte3dNQN2F8XsLXxlMT5nULCCKQXde58w60+/FkKBAk6zd0BQ+EPqmUHFCYGA51Oeoh2JQbBBzOsJoIAAA",
+    "width": 800,
+    "height": 600,
+    "sources": [
+      {
+        "w": 520,
+        "h": 390,
+        "avif": "plaster-detail-520.avif",
+        "webp": "plaster-detail-520.webp"
+      },
+      {
+        "w": 780,
+        "h": 585,
+        "avif": "plaster-detail-780.avif",
+        "webp": "plaster-detail-780.webp"
+      },
+      {
+        "w": 800,
+        "h": 600,
+        "avif": "plaster-detail-800.avif",
+        "webp": "plaster-detail-800.webp"
+      }
+    ]
+  },
+  "plaster-texture": {
+    "w": 698,
+    "h": 613,
+    "aspect": 1.1387,
+    "lqip": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAACQAwCdASoYABUAPulsrlGpJaQiqAgBIB0JYwB2AACAhB4n+jAAAP7Lt/+vKcDJv/1ERBSSmDKZa8brFZ/xf8Nd18AAAA==",
+    "width": 698,
+    "height": 613,
+    "sources": [
+      {
+        "w": 520,
+        "h": 457,
+        "avif": "plaster-texture-520.avif",
+        "webp": "plaster-texture-520.webp"
+      },
+      {
+        "w": 698,
+        "h": 613,
+        "avif": "plaster-texture-698.avif",
+        "webp": "plaster-texture-698.webp"
+      }
+    ]
+  },
+  "scaffold": {
+    "w": 835,
+    "h": 1280,
+    "aspect": 0.6523,
+    "lqip": "data:image/webp;base64,UklGRi4BAABXRUJQVlA4ICIBAADQBgCdASoYACUAPulmq1ApJSOiqqgBIB0JYwDDsAnGWYVyluF/saX8qR2s25OQiM09mmnoFBFPX5eMoVkfEgAA/uRYgUeSYyWD4lk4S68N4HVUYs6+98S1tpP+t5cQdxyMRZ6KiM5tWbhm7XAQ29hq3Q3pMNahzzfCWqw8y2CWrBqEFdbQwc7njY7oRj5z4c0l7Gkp5VzYvUHFsSdaP8IBudAByk8JIC8Gue/8riRRe8+iFwn4jNOW1bK/8VhoTQ03BV4yNPNCbpM5XKm7g5LpScJbmn9lmL9E2NP4qOvPHLWPB+591kIY6iy0OeK9ekp6MShKaLC1dUFcxu76K/dAqRUkAGenqtjhbyvXuJ9u9lK5UzJdO1UJy1Oji1DOHgAAAA==",
+    "width": 835,
+    "height": 1280,
+    "sources": [
+      {
+        "w": 520,
+        "h": 797,
+        "avif": "scaffold-520.avif",
+        "webp": "scaffold-520.webp"
+      },
+      {
+        "w": 780,
+        "h": 1196,
+        "avif": "scaffold-780.avif",
+        "webp": "scaffold-780.webp"
+      },
+      {
+        "w": 835,
+        "h": 1280,
+        "avif": "scaffold-835.avif",
+        "webp": "scaffold-835.webp"
+      }
+    ]
+  },
+  "stone-paving": {
+    "w": 980,
+    "h": 735,
+    "aspect": 1.3333,
+    "lqip": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABwBACdASoYABIAPulqrVGpJaQiqAgBIB0JZwDDNBEMV0GuHo86kxt8ylv4AADw4R47sN9l3WgFVRntEaPCX9WciFdcc9T87dszmtpyuMasmRk65vz3G/NmmPf7hRnDk18GVCggmVRo/NMkYC5lwJlMB+CUKATNdKlT+ztHdz2JqSUJbzRNbvvvZ6C9tkkaCCB4gixwIcxNNzRrfZbcI+mAAAA=",
+    "width": 980,
+    "height": 735,
+    "sources": [
+      {
+        "w": 520,
+        "h": 390,
+        "avif": "stone-paving-520.avif",
+        "webp": "stone-paving-520.webp"
+      },
+      {
+        "w": 780,
+        "h": 585,
+        "avif": "stone-paving-780.avif",
+        "webp": "stone-paving-780.webp"
+      },
+      {
+        "w": 980,
+        "h": 735,
+        "avif": "stone-paving-980.avif",
+        "webp": "stone-paving-980.webp"
+      }
+    ]
+  },
+  "stone-steps": {
+    "w": 820,
+    "h": 500,
+    "aspect": 1.64,
+    "lqip": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADwAwCdASoYAA8APulgqE0pJaOiMAgBIB0JZQAAP/q+sLx3I81BLxoAAP7mO9OBEXrU1uoLBILVMfuy8aR56lHSPor7+iSJ+zYm1ySwDRxOLzv7/SNr9EByoToMszeOgUKX+rQ7LNyolAblDlyDLj0FBhhrjaA/bIt+AAAA",
+    "width": 820,
+    "height": 500,
+    "sources": [
+      {
+        "w": 520,
+        "h": 317,
+        "avif": "stone-steps-520.avif",
+        "webp": "stone-steps-520.webp"
+      },
+      {
+        "w": 780,
+        "h": 476,
+        "avif": "stone-steps-780.avif",
+        "webp": "stone-steps-780.webp"
+      },
+      {
+        "w": 820,
+        "h": 500,
+        "avif": "stone-steps-820.avif",
+        "webp": "stone-steps-820.webp"
+      }
+    ]
+  },
+  "team-budri": {
+    "w": 500,
+    "h": 500,
+    "aspect": 1,
+    "lqip": "data:image/webp;base64,UklGRsIAAABXRUJQVlA4ILYAAADQBQCdASoYABgAPulmp0+pJaMiKA1RIB0JQBOmW+AwDO6Nb5iI7dh9heA2027gvfz58sEmd/YAAP62dEexb9YsbSWfq5ILK3qWID4wKDYw+RYgDqBHAbmiFb5BCfwf7XbowY5yw//y82oksca5w+uazrRkLFWlLubFfLeysY3QpzbUrvkZ8GvTt69FxQ02y3IcSFDZfB1Bbne8q/NTna+qnnz6s0zI+XsssdweSA9QFmySK5vAAA==",
+    "width": 500,
+    "height": 500,
+    "sources": [
+      {
+        "w": 400,
+        "h": 400,
+        "avif": "team-budri-400.avif",
+        "webp": "team-budri-400.webp"
+      },
+      {
+        "w": 500,
+        "h": 500,
+        "avif": "team-budri-500.avif",
+        "webp": "team-budri-500.webp"
+      }
+    ]
+  },
+  "team-roland": {
+    "w": 500,
+    "h": 500,
+    "aspect": 1,
+    "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAABQBQCdASoYABgAPulkqk2pJaQiMAgBIB0JbACdM0xDTrhY3CtDmQlznKN9uh8NHR8ruAAA/sNPkLrYf65zPO9sxKXp6yyy0CF5C/z8P4he0mBYnxPzXg1ZM+yJ7br5r+BZl491l+3BPI00/c3XDJYUede7VpcfEA1qjzPXjln0w7mHJB5/FxVKHC0oiLQQfgJP+1nncxW+PFS15QAAAA==",
+    "width": 500,
+    "height": 500,
+    "sources": [
+      {
+        "w": 400,
+        "h": 400,
+        "avif": "team-roland-400.avif",
+        "webp": "team-roland-400.webp"
+      },
+      {
+        "w": 500,
+        "h": 500,
+        "avif": "team-roland-500.avif",
+        "webp": "team-roland-500.webp"
+      }
+    ]
+  },
+  "tiles-floor": {
+    "w": 1024,
+    "h": 768,
+    "aspect": 1.3333,
+    "lqip": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAABwBACdASoYABIAPulcqE0pJSQiMBgMASAdCWcAAC9zkorgKeHjh4hsaZkosAD+6+c6rUCFAYjMgbT6RvGpVmPG2Yx3qYyBf9EkybY7zko6jegJGxnEMu0a7NBmIgChDgAAAA==",
+    "width": 1024,
+    "height": 768,
+    "sources": [
+      {
+        "w": 620,
+        "h": 465,
+        "avif": "tiles-floor-620.avif",
+        "webp": "tiles-floor-620.webp"
+      },
+      {
+        "w": 960,
+        "h": 720,
+        "avif": "tiles-floor-960.avif",
+        "webp": "tiles-floor-960.webp"
+      },
+      {
+        "w": 1024,
+        "h": 768,
+        "avif": "tiles-floor-1024.avif",
+        "webp": "tiles-floor-1024.webp"
+      }
+    ]
+  },
+  "wall-mural": {
+    "w": 1440,
+    "h": 1920,
+    "aspect": 0.75,
+    "lqip": "data:image/webp;base64,UklGRg4BAABXRUJQVlA4IAIBAABQBgCdASoYACAAPulqqU6pJqOiMBgIASAdCUAXZnAZzBJLrdmbqvjcKtn+zu4NXfNd5vOt3KNJ/BOgAAD+40vgTZsPf8WEQTTqOReyneKsrNeZFk1f1FXEQ7/AFan/fhxoWtdp8Qvta76yLqKKuds4Y550afdvXyQpWR+vGPt17U2oivBYyrNuGK0KVSAs3Cx3g9oEHqdLqaxqmDHQuskZ2HUBT16TpEOsbrmcFJNoWRJmNqgJMnVpBxU863vNfyjrk1f3ESNMPvhJ9ZAx9c9v986oyXDpUTHbgE3/9dn65cMzLcUSc7kkUwXUuXbZo4z9yvgI3+3WBk813lVactx8AAA=",
+    "width": 1200,
+    "height": 1600,
+    "sources": [
+      {
+        "w": 620,
+        "h": 827,
+        "avif": "wall-mural-620.avif",
+        "webp": "wall-mural-620.webp"
+      },
+      {
+        "w": 940,
+        "h": 1253,
+        "avif": "wall-mural-940.avif",
+        "webp": "wall-mural-940.webp"
+      },
+      {
+        "w": 1200,
+        "h": 1600,
+        "avif": "wall-mural-1200.avif",
+        "webp": "wall-mural-1200.webp"
+      }
+    ]
+  }
+}

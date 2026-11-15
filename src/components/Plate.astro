@@ -1,0 +1,64 @@
+---
+import Icon from './Icon.astro';
+import Pic from './Pic.astro';
+
+interface Props {
+  image: string;
+  imageAlt: string;
+  quote: string;
+  caption: string;
+  href?: string;
+  linkLabel?: string;
+}
+
+const { image, imageAlt, quote, caption, href, linkLabel } = Astro.props;
+---
+
+<section class="plate" data-plate>
+  <div class="plate__media" data-parallax>
+    <Pic
+      name={image}
+      alt={imageAlt}
+      sizes="100vw"
+      widths={[1080, 1400, 1600]}
+      loading="lazy"
+    />
+  </div>
+
+  <div class="wrap plate__body">
+    <p class="eyebrow eyebrow--bare" style="color:rgb(244 240 231 / 70%)">{caption}</p>
+    <blockquote>{quote}</blockquote>
+    {
+      href && linkLabel && (
+        <a class="link-arrow" href={href}>
+          {linkLabel}
+          <Icon name="arrow-up-right" size={13} />
+        </a>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const section = document.querySelector<HTMLElement>('[data-plate]');
+  const layer = section?.querySelector<HTMLElement>('[data-parallax]');
+
+  if (section && layer && !reduced) {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const rect = section.getBoundingClientRect();
+      if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
+      const progress = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
+      layer.style.transform = `translate3d(0, ${(-progress * 42).toFixed(2)}px, 0)`;
+    };
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+  }
+</script>

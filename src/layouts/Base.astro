@@ -1,0 +1,202 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { copy } from '../data/copy';
+import { services } from '../data/services';
+import { pathFor, resolvePath, site, type Lang } from '../data/site';
+import '../styles/fonts.css';
+import '../styles/base.css';
+import '../styles/site.css';
+import '../styles/pages.css';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Dark hero behind the header at the top of the page. */
+  overlay?: boolean;
+  noindex?: boolean;
+  image?: string;
+}
+
+const { lang, title, description, overlay = false, noindex = false, image = '/og.jpg' } = Astro.props;
+
+const c = copy[lang];
+const { key } = resolvePath(Astro.url.pathname);
+const path = pathFor(lang, key);
+const canonical = new URL(path, site.url).href;
+const alternates = {
+  nb: pathFor('nb', key),
+  en: pathFor('en', key),
+  el: pathFor('el', key),
+};
+const socialImage = new URL(image, site.url).href;
+const fullTitle = title.includes('Design Construction') ? title : `${title} | Design Construction`;
+const brandName = site.name;
+
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  '@id': `${site.url}/#business`,
+  name: brandName,
+  url: site.url,
+  description: copy.nb.seo.home.description,
+  image: `${site.url}/og.jpg`,
+  logo: `${site.url}/icon-512.png`,
+  email: site.email,
+  telephone: site.phones.map((p) => p.tel),
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    postalCode: site.address.postalCode,
+    addressLocality: site.address.city,
+    addressRegion: 'Akershus',
+    addressCountry: site.address.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: site.geo.lat,
+    longitude: site.geo.lng,
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Oslo' },
+    { '@type': 'AdministrativeArea', name: 'Akershus' },
+    { '@type': 'Municipality', name: 'Nordre Follo' },
+  ],
+  knowsLanguage: ['nb', 'en', 'el'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: copy.nb.seo.services.title,
+    itemListElement: services.map((service) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: service.title.nb,
+        description: service.lead.nb,
+        url: new URL(pathFor('nb', `service:${service.id}`), site.url).href,
+      },
+    })),
+  },
+};
+---
+
+<!doctype html>
+<html lang={c.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="alternate" hreflang="nb-NO" href={new URL(alternates.nb, site.url).href} />
+    <link rel="alternate" hreflang="en" href={new URL(alternates.en, site.url).href} />
+    <link rel="alternate" hreflang="el" href={new URL(alternates.el, site.url).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates.nb, site.url).href} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta name="theme-color" content="#0e0f0c" />
+    <meta name="color-scheme" content="light" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content={brandName} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={brandName} />
+    <meta property="og:locale" content={c.ogLocale} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link
+      rel="preload"
+      href="/fonts/ebgaramond-latin-400-700.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/manrope-latin-200-800.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    {
+      lang === 'el' && (
+        <>
+          <link
+            rel="preload"
+            href="/fonts/ebgaramond-greek-400-700.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+          />
+          <link
+            rel="preload"
+            href="/fonts/manrope-greek-200-800.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+          />
+        </>
+      )
+    }
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
+  </head>
+
+  <body id="top">
+    <a class="skip-link" href="#main">{c.ui.skip}</a>
+    <Header lang={lang} overlay={overlay} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <div class="grain" aria-hidden="true"></div>
+
+    <script>
+      // Hero: settle the entrance animation on the next frame.
+      requestAnimationFrame(() => {
+        document.documentElement.classList.add('is-ready');
+      });
+
+      const reveals = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!reveals.length) {
+        // nothing to do
+      } else if (reduced || !('IntersectionObserver' in window)) {
+        reveals.forEach((element) => element.classList.add('is-visible'));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            });
+          },
+          { rootMargin: '0px 0px -6% 0px', threshold: 0.08 },
+        );
+        reveals.forEach((element) => observer.observe(element));
+      }
+    </script>
+  </body>
+</html>

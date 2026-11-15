@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  index: string;
+  kicker: string;
+  title: string;
+  lead?: string;
+  href?: string;
+  linkLabel?: string;
+  tone?: 'light' | 'dark';
+}
+
+const { index, kicker, title, lead, href, linkLabel, tone = 'light' } = Astro.props;
+---
+
+<div class="section-head" data-reveal>
+  <div class="section-head__title">
+    <p class="index-label">
+      <b>{index}</b>
+      <span>— {kicker}</span>
+    </p>
+    <h2 class={tone === 'dark' ? 'display-m' : 'display-m'} set:html={title} />
+  </div>
+
+  {
+    (lead || (href && linkLabel)) && (
+      <div class="section-head__aside">
+        {lead && <p>{lead}</p>}
+        {href && linkLabel && (
+          <a class="link-arrow" href={href}>
+            {linkLabel}
+            <Icon name="arrow-up-right" size={13} />
+          </a>
+        )}
+      </div>
+    )
+  }
+</div>

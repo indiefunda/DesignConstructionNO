@@ -1,0 +1,90 @@
+---
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import { copy } from '../data/copy';
+import { site, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const p = c.contactPage;
+const d = p.details;
+---
+
+<PageHero
+  lang={lang}
+  kicker={p.kicker}
+  titleLines={p.titleLines}
+  lead={p.lead}
+  crumbs={[{ label: c.nav.contact }]}
+/>
+
+<section class="section">
+  <div class="wrap contact-grid">
+    <div data-reveal>
+      <ContactForm lang={lang} />
+    </div>
+
+    <aside class="contact-side" data-reveal style="--d:100ms">
+      <div class="contact-card">
+        <p class="eyebrow">{d.kicker}</p>
+
+        <dl>
+          <div>
+            <dt>{d.addressLabel}</dt>
+            <dd>
+              <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer">
+                {site.address.street}
+                <br />
+                {site.address.postalCode} {site.address.city}
+              </a>
+            </dd>
+          </div>
+
+          <div>
+            <dt>{d.phoneLabel}</dt>
+            <dd>
+              <span class="contact-phones">
+                {site.phones.map((phone) => <a href={`tel:${phone.tel}`}>{phone.display}</a>)}
+              </span>
+            </dd>
+          </div>
+
+          <div>
+            <dt>{d.emailLabel}</dt>
+            <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+          </div>
+
+          <div>
+            <dt>{d.hoursLabel}</dt>
+            <dd>{d.hours}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="contact-map">
+        <strong>{site.address.street}</strong>
+        <p>{site.address.postalCode} {site.address.city}, Norge</p>
+        <a class="link-arrow" href={site.mapsUrl} target="_blank" rel="noopener noreferrer">
+          {d.mapLink}
+          <Icon name="arrow-up-right" size={13} />
+        </a>
+      </div>
+
+      <figure class="contact-photo frame">
+        <Pic
+          name="door-opening"
+          alt={c.home.proof}
+          sizes="(max-width: 980px) 92vw, 34vw"
+          widths={[520, 780]}
+        />
+        <figcaption>{c.home.proof}</figcaption>
+      </figure>
+    </aside>
+  </div>
+</section>

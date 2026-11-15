@@ -1,0 +1,83 @@
+---
+import Closer from '../components/Closer.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import { copy } from '../data/copy';
+import { serviceById, services } from '../data/services';
+import { pathFor, type Lang, type ServiceId } from '../data/site';
+
+interface Props {
+  lang: Lang;
+  id: ServiceId;
+}
+
+const { lang, id } = Astro.props;
+const c = copy[lang];
+const s = c.servicesPage;
+const service = serviceById(id);
+const others = services.filter((item) => item.id !== id);
+const lead = service.lead[lang];
+---
+
+<PageHero
+  lang={lang}
+  kicker={service.label[lang]}
+  titleLines={[service.title[lang]]}
+  accentLine={-1}
+  lead={lead}
+  crumbs={[
+    { label: c.nav.services, href: pathFor(lang, 'services') },
+    { label: service.title[lang] },
+  ]}
+  image={service.image}
+  imageAlt={service.title[lang]}
+/>
+
+<section class="section">
+  <div class="wrap svc-body">
+    <aside class="svc-body__aside" data-reveal>
+      <p class="eyebrow">{s.detail.kicker}</p>
+      <h2 class="display-m" style="margin-top:.8rem;max-width:12ch">{s.detail.title}</h2>
+      <p style="color:var(--muted);font-size:.96rem;line-height:1.6;margin-top:.9rem;max-width:30ch">
+        {lead}
+      </p>
+      <a class="btn" style="margin-top:1.4rem" href={pathFor(lang, 'contact')}>
+        {s.detail.cta}
+        <Icon name="arrow-up-right" size={13} />
+      </a>
+      <p style="margin-top:1.1rem;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">
+        {c.home.proof}
+      </p>
+    </aside>
+
+    <ol class="svc-bullets" data-reveal style="--d:100ms">
+      {service.bullets[lang].map((bullet) => <li><span>{bullet}</span></li>)}
+    </ol>
+  </div>
+</section>
+
+<section class="svc-related section--tight">
+  <div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.2rem">
+      <h2 class="display-s">{s.detail.related}</h2>
+      <a class="link-arrow" href={pathFor(lang, 'services')}>
+        {c.ui.allServices}
+        <Icon name="arrow-right" size={13} />
+      </a>
+    </div>
+
+    <div class="svc-related__grid" data-reveal>
+      {
+        others.map((item) => (
+          <a class="svc-related__card" href={pathFor(lang, `service:${item.id}`)}>
+            <span>{item.meta[lang]}</span>
+            <h3>{item.title[lang]}</h3>
+            <Icon name="arrow-up-right" size={16} />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<Closer lang={lang} />

@@ -1,0 +1,226 @@
+---
+import Icon from './Icon.astro';
+import { copy } from '../data/copy';
+import { services } from '../data/services';
+import { pathFor, resolvePath, site, langCode, type Lang, type PageKey } from '../data/site';
+
+interface Props {
+  lang: Lang;
+  /** Transparent over a dark hero until the user scrolls. */
+  overlay?: boolean;
+}
+
+const { lang, overlay = false } = Astro.props;
+const c = copy[lang];
+const { key } = resolvePath(Astro.url.pathname);
+
+const items: { key: PageKey; label: string }[] = [
+  { key: 'about', label: c.nav.about },
+  { key: 'services', label: c.nav.services },
+  { key: 'gallery', label: c.nav.gallery },
+  { key: 'staff', label: c.nav.staff },
+  { key: 'contact', label: c.nav.contact },
+];
+
+const isOn = (target: PageKey) => (key === target ? 'page' : undefined);
+const servicesActive = key.startsWith('service:');
+const menuItems: { key: PageKey; label: string }[] = [
+  { key: 'home', label: c.ui.home },
+  ...items,
+  { key: 'terms', label: c.termsPage.kicker },
+];
+const otherLangs = (['nb', 'en', 'el'] as Lang[]).filter((l) => l !== lang);
+---
+
+<header class:list={['site-head', { 'site-head--static': !overlay }]} data-head>
+  <div class="wrap head__inner">
+    <a class="brand" href={pathFor(lang, 'home')} aria-label={`${site.name} — ${c.ui.home}`}>
+      <span class="brand__tile" aria-hidden="true">DC</span>
+      <span class="brand__word">
+        <b>Design</b>
+        <i>Construction</i>
+      </span>
+    </a>
+
+    <nav class="head__nav" aria-label={c.ui.mainNav}>
+      <ul>
+        {
+          items.map((item) =>
+            item.key === 'services' ? (
+              <li class="has-sub">
+                <a
+                  href={pathFor(lang, 'services')}
+                  aria-current={servicesActive ? 'page' : isOn('services')}
+                >
+                  {item.label}
+                </a>
+                <ul class="sub">
+                  {services.map((service, index) => (
+                    <li>
+                      <a href={pathFor(lang, `service:${service.id}`)}>
+                        {service.label[lang]}
+                        <span>{String(index + 1).padStart(2, '0')}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li>
+                <a href={pathFor(lang, item.key)} aria-current={isOn(item.key)}>
+                  {item.label}
+                </a>
+              </li>
+            ),
+          )
+        }
+      </ul>
+    </nav>
+
+    <div class="head__actions">
+      <a class="head__tel" href={`tel:${site.phones[0].tel}`}>
+        <Icon name="phone" size={14} />
+        <span>{site.phones[0].display}</span>
+      </a>
+
+      <div class="lang" aria-label={c.ui.language}>
+        <span class="is-active" aria-current="true" lang={c.htmlLang}>{langCode[lang]}</span>
+        {
+          otherLangs.map((l) => (
+            <a href={pathFor(l, key)} hreflang={l} lang={l} aria-label={copy[l].langName}>
+              {langCode[l]}
+            </a>
+          ))
+        }
+      </div>
+
+      <a class="btn btn--sm head__cta" href={pathFor(lang, 'contact')}>
+        {c.ui.quote}
+        <Icon name="arrow-up-right" size={13} />
+      </a>
+
+      <button
+        class="menu-btn"
+        type="button"
+        data-menu-open
+        aria-expanded="false"
+        aria-controls="site-menu"
+      >
+        <span>{c.ui.menu}</span>
+        <span class="menu-btn__lines" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog class="menu" id="site-menu" data-menu aria-label={c.ui.siteMenu}>
+  <div class="menu__inner wrap">
+    <div class="menu__top">
+      <a class="brand" href={pathFor(lang, 'home')}>
+        <span class="brand__tile" aria-hidden="true">DC</span>
+        <span class="brand__word"><b>Design</b><i>Construction</i></span>
+      </a>
+      <button class="menu__close" type="button" data-menu-close autofocus>
+        <span>{c.ui.close}</span>
+        <Icon name="close" size={16} />
+      </button>
+    </div>
+
+    <nav class="menu__nav" aria-label={c.ui.mainNav}>
+      <ul>
+        {
+          menuItems.map((item, index) => (
+            <li style={`--i:${index}`}>
+              <a href={pathFor(lang, item.key)} aria-current={isOn(item.key) ?? (item.key === 'home' && key === 'home' ? 'page' : undefined)}>
+                <span class="menu__num">{String(index + 1).padStart(2, '0')}</span>
+                <span class="menu__label">{item.label}</span>
+                <Icon name="arrow-up-right" size={20} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="menu__foot">
+      <div class="menu__foot-grid">
+        <div>
+          <p class="eyebrow">{c.contactPage.details.phoneLabel}</p>
+          <a class="menu__tel" href={`tel:${site.phones[0].tel}`}>{site.phones[0].display}</a>
+          <a class="menu__mail" href={`tel:${site.phones[1].tel}`}>{site.phones[1].display}</a>
+        </div>
+        <div>
+          <p class="eyebrow">{c.contactPage.details.emailLabel}</p>
+          <a class="menu__mail" href={`mailto:${site.email}`}>{site.email}</a>
+          <p class="menu__mail" style="margin-top:.5rem">{c.footer.place}</p>
+        </div>
+        <div>
+          <p class="eyebrow">{c.contactPage.details.addressLabel}</p>
+          <p class="menu__address">
+            {site.address.street}<br />
+            {site.address.postalCode} {site.address.city}
+          </p>
+        </div>
+      </div>
+
+      <div class="menu__langs">
+        {
+          (['nb', 'en', 'el'] as Lang[]).map((l) => (
+            <a
+              href={pathFor(l, key)}
+              hreflang={l}
+              lang={l}
+              class:list={{ 'is-active': l === lang }}
+            >
+              {copy[l].langName}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const head = document.querySelector<HTMLElement>('[data-head]');
+  const dialog = document.querySelector<HTMLDialogElement>('[data-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+  // The header is only transparent over a dark hero. Once it scrolls, it
+  // takes the paper background so navigation stays legible.
+  const isOverlay = head && !head.classList.contains('site-head--static');
+  const sync = () => {
+    if (!head || !isOverlay) return;
+    head.classList.toggle('is-solid', window.scrollY > 40);
+  };
+  sync();
+  window.addEventListener('scroll', sync, { passive: true });
+
+  const setOpen = (open: boolean) => {
+    openBtn?.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('menu-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
+  openBtn?.addEventListener('click', () => {
+    dialog?.showModal();
+    setOpen(true);
+    closeBtn?.focus();
+  });
+
+  closeBtn?.addEventListener('click', () => dialog?.close());
+
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  dialog?.addEventListener('close', () => {
+    setOpen(false);
+    openBtn?.focus();
+  });
+
+  dialog?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => dialog.close());
+  });
+</script>

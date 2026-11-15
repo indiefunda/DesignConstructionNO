@@ -1,0 +1,61 @@
+---
+import Closer from '../components/Closer.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import { copy } from '../data/copy';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const s = c.staffPage;
+---
+
+<PageHero
+  lang={lang}
+  kicker={s.kicker}
+  titleLines={s.titleLines}
+  lead={s.lead}
+  crumbs={[{ label: c.nav.staff }]}
+/>
+
+<section class="section">
+  <div class="wrap">
+    <div class="staff-grid">
+      {
+        s.members.map((member, index) => (
+          <article class="staff-card" data-reveal style={`--d:${index * 90}ms`}>
+            <div class="staff-card__img frame">
+              <Pic name={member.image} alt={member.name} sizes="(max-width: 760px) 92vw, 46vw" widths={[400, 500]} />
+            </div>
+            <div class="staff-card__body">
+              <h2>{member.name}</h2>
+              <p>{member.role}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section--tight" style="padding-top:0">
+  <div class="wrap">
+    <div class="join" data-reveal>
+      <div>
+        <h2>{s.join.title}</h2>
+        <p>{s.join.body}</p>
+      </div>
+      <a class="btn btn--light" href={pathFor(lang, 'contact')}>
+        {s.join.cta}
+        <Icon name="arrow-up-right" size={14} />
+      </a>
+    </div>
+  </div>
+</section>
+
+<Closer lang={lang} />

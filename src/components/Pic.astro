@@ -1,0 +1,53 @@
+---
+import manifest from '../data/images.json';
+
+interface Props {
+  /** Key from src/data/images.json (the source file name without extension). */
+  name: string;
+  alt: string;
+  sizes?: string;
+  widths?: number[];
+  class?: string;
+  loading?: 'eager' | 'lazy';
+  priority?: boolean;
+  /** Extra attributes on the <img>, e.g. data-lightbox-src. */
+  imgAttrs?: Record<string, string | number | boolean | undefined>;
+}
+
+const {
+  name,
+  alt,
+  sizes = '100vw',
+  widths,
+  class: className,
+  loading = 'lazy',
+  priority = false,
+  imgAttrs = {},
+} = Astro.props;
+
+type Source = { w: number; h: number; avif: string; webp: string };
+const data = (manifest as Record<string, { w: number; h: number; aspect: number; lqip: string; sources: Source[] }>)[name];
+if (!data) throw new Error(`Pic: unknown image "${name}"`);
+
+const pool = data.sources as Source[];
+const filtered = widths ? pool.filter((s) => widths.includes(s.w)) : pool;
+const list = filtered.length ? filtered : pool;
+const fallback = list[list.length - 1];
+const srcset = (ext: 'avif' | 'webp') => list.map((s) => `/images/${s[ext]} ${s.w}w`).join(', ');
+---
+
+<picture class={className}>
+  <source type="image/avif" srcset={srcset('avif')} sizes={sizes} />
+  <source type="image/webp" srcset={srcset('webp')} sizes={sizes} />
+  <img
+    src={`/images/${fallback.webp}`}
+    width={fallback.w}
+    height={fallback.h}
+    alt={alt}
+    loading={priority ? 'eager' : loading}
+    decoding="async"
+    fetchpriority={priority ? 'high' : 'auto'}
+    style={`background-image:url(${data.lqip});background-size:cover;background-position:center`}
+    {...imgAttrs}
+  />
+</picture>

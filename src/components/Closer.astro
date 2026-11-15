@@ -1,0 +1,60 @@
+---
+import Icon from './Icon.astro';
+import { copy } from '../data/copy';
+import { pathFor, site, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+  /** Override the headline; the final word is set in italic clay. */
+  title?: string;
+  lead?: string;
+  buttonLabel?: string;
+  index?: string;
+  kicker?: string;
+}
+
+const { lang, title, lead, buttonLabel, index, kicker } = Astro.props;
+const c = copy[lang];
+const cta = c.home.cta;
+
+const headline = title ?? cta.title;
+const split = headline.match(/^(.*\s)(\S+)$/);
+const head = split ? split[1] : '';
+const tail = split ? split[2] : headline;
+---
+
+<section class="closer">
+  <div class="wrap closer__inner">
+    <p class="index-label" data-reveal>
+      <b>{index ?? cta.index}</b>
+      <span>— {kicker ?? cta.kicker}</span>
+    </p>
+
+    <h2 class="closer__title" data-reveal>
+      {head}<em>{tail}</em>
+    </h2>
+
+    <div class="closer__row" data-reveal>
+      <p class="closer__lead">{lead ?? cta.lead}</p>
+      <div class="closer__actions">
+        <a class="btn btn--clay" href={pathFor(lang, 'contact')}>
+          {buttonLabel ?? cta.button}
+          <Icon name="arrow-up-right" size={14} />
+        </a>
+        <a class="btn btn--ghost" style="--btn-fg:var(--paper);box-shadow:inset 0 0 0 1px var(--line-dark-strong)" href={`tel:${site.phones[0].tel}`}>
+          {c.ui.call}
+          <Icon name="phone" size={13} />
+        </a>
+      </div>
+    </div>
+
+    <div class="closer__contact">
+      <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer">
+        {site.address.street}, {site.address.postalCode} {site.address.city}
+      </a>
+      <a href={`tel:${site.phones[0].tel}`}>{site.phones[0].display}</a>
+      <a href={`tel:${site.phones[1].tel}`}>{site.phones[1].display}</a>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+  </div>
+</section>

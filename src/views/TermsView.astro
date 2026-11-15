@@ -1,0 +1,92 @@
+---
+import Closer from '../components/Closer.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import { copy } from '../data/copy';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const t = c.termsPage;
+---
+
+<PageHero
+  lang={lang}
+  kicker={t.kicker}
+  titleLines={t.titleLines}
+  lead={t.lead}
+  crumbs={[{ label: t.kicker }]}
+/>
+
+<section class="section">
+  <div class="wrap terms-grid">
+    <nav class="terms-toc" aria-label={t.kicker} data-toc>
+      <p class="eyebrow" style="margin-bottom:.9rem">{t.kicker}</p>
+      <ol>
+        {
+          t.sections.map((section, index) => (
+            <li>
+              <a href={`#${section.id}`} data-toc-link={section.id}>
+                <b>{String(index + 1).padStart(2, '0')}</b>
+                {section.title}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div>
+      {
+        t.sections.map((section, index) => (
+          <section class="terms-sec" id={section.id} data-term-sec>
+            <div class="terms-sec__head">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h2>{section.title}</h2>
+            </div>
+            <ul>
+              {section.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+
+      <div class="terms-note" data-reveal>
+        <p>{t.note}</p>
+        <a class="btn btn--sm" href={pathFor(lang, 'contact')}>
+          {t.cta}
+          <Icon name="arrow-up-right" size={13} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<Closer lang={lang} />
+
+<script>
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-term-sec]'));
+
+  if (links.length && sections.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = (entry.target as HTMLElement).id;
+          links.forEach((link) => {
+            link.classList.toggle('is-active', link.dataset.tocLink === id);
+          });
+        });
+      },
+      { rootMargin: '-25% 0px -60% 0px', threshold: 0 },
+    );
+    sections.forEach((section) => observer.observe(section));
+  }
+</script>

@@ -1,0 +1,119 @@
+---
+import Icon from './Icon.astro';
+import { copy } from '../data/copy';
+import { services } from '../data/services';
+import { pathFor, resolvePath, site, type Lang, type PageKey } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const { key } = resolvePath(Astro.url.pathname);
+const year = new Date().getFullYear();
+
+const pageLinks: { key: PageKey; label: string }[] = [
+  { key: 'about', label: c.nav.about },
+  { key: 'services', label: c.nav.services },
+  { key: 'gallery', label: c.nav.gallery },
+  { key: 'staff', label: c.nav.staff },
+  { key: 'terms', label: c.termsPage.kicker },
+  { key: 'contact', label: c.nav.contact },
+];
+---
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top">
+      <div class="foot__brand">
+        <a class="brand" href={pathFor(lang, 'home')} aria-label={site.name}>
+          <span class="brand__tile" aria-hidden="true">DC</span>
+          <span class="brand__word"><b>Design</b><i>Construction</i></span>
+        </a>
+        <p>{c.footer.blurb}</p>
+        <p class="foot__place">{c.footer.place}</p>
+      </div>
+
+      <div class="foot__cols">
+        <div>
+          <h2>{c.footer.pagesLabel}</h2>
+          <ul>
+            {
+              pageLinks.map((item) => (
+                <li>
+                  <a href={pathFor(lang, item.key)}>{item.label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h2>{c.footer.servicesLabel}</h2>
+          <ul>
+            {
+              services.map((service) => (
+                <li>
+                  <a href={pathFor(lang, `service:${service.id}`)}>{service.label[lang]}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h2>{c.footer.contactLabel}</h2>
+          <ul>
+            <li>
+              <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer">
+                {site.address.street}
+                <br />
+                {site.address.postalCode} {site.address.city}
+              </a>
+            </li>
+            {
+              site.phones.map((phone) => (
+                <li>
+                  <a href={`tel:${phone.tel}`}>{phone.display}</a>
+                </li>
+              ))
+            }
+            <li>
+              <a href={`mailto:${site.email}`}>{site.email}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot__mid">
+      <p>© {year} {c.footer.legal}</p>
+      <div class="foot__langs" aria-label={c.ui.language}>
+        {
+          (['nb', 'en', 'el'] as Lang[]).map((l) => (
+            <a
+              href={pathFor(l, key)}
+              hreflang={l}
+              lang={l}
+              class:list={{ 'is-active': l === lang }}
+              aria-current={l === lang ? 'true' : undefined}
+            >
+              {copy[l].langName}
+            </a>
+          ))
+        }
+      </div>
+      <a class="foot__top-link" href="#top">
+        {c.ui.backToTop}
+        <Icon name="arrow-down" size={13} class="foot__top-icon" />
+      </a>
+    </div>
+
+    <svg class="foot__wordmark" viewBox="0 0 1000 168" role="presentation" aria-hidden="true">
+      <text x="0" y="132" textLength="1000" lengthAdjust="spacingAndGlyphs" font-size="168"
+        >Design Construction</text
+      >
+    </svg>
+  </div>
+</footer>

@@ -1,0 +1,124 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import manifest from '../data/images.json';
+import { copy } from '../data/copy';
+import { services } from '../data/services';
+import { pathFor, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const section = c.home.services;
+
+type Source = { w: number; h: number; avif: string; webp: string };
+const largest = (name: string) => {
+  const data = (manifest as Record<string, { sources: Source[] }>)[name];
+  return `/images/${data.sources[data.sources.length - 1].webp}`;
+};
+---
+
+<section class="services-sec section" id="tjenester">
+  <div class="wrap">
+    <SectionHead
+      index={section.index}
+      kicker={section.kicker}
+      title={section.title}
+      lead={section.lead}
+      href={pathFor(lang, 'services')}
+      linkLabel={c.ui.allServices}
+    />
+
+    <div class="services-list" data-services data-reveal>
+      {
+        services.map((service, index) => (
+          <a
+            class="service-row"
+            href={pathFor(lang, `service:${service.id}`)}
+            data-preview={largest(service.image)}
+          >
+            <span class="service-row__num">{String(index + 1).padStart(2, '0')}</span>
+            <span class="service-row__title">{service.label[lang]}</span>
+            <span class="service-row__meta">{service.meta[lang]}</span>
+            <span class="service-row__go" aria-hidden="true">
+              <Icon name="arrow-up-right" size={15} />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="service-preview" data-preview-el aria-hidden="true">
+      <img
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+        alt=""
+        width="320"
+        height="400"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  const list = document.querySelector<HTMLElement>('[data-services]');
+  const preview = document.querySelector<HTMLElement>('[data-preview-el]');
+  const image = preview?.querySelector('img');
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (list && preview && image && fine && !reduced) {
+    let pointerX = 0;
+    let pointerY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let active = false;
+    let raf = 0;
+
+    const tick = () => {
+      currentX += (pointerX - currentX) * 0.14;
+      currentY += (pointerY - currentY) * 0.14;
+      preview.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+      raf = requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(tick);
+    };
+
+    list.querySelectorAll<HTMLElement>('[data-preview]').forEach((row) => {
+      row.addEventListener('pointerenter', () => {
+        const src = row.dataset.preview;
+        if (src && image.getAttribute('src') !== src) image.src = src;
+        preview.classList.add('is-on');
+        active = true;
+        start();
+      });
+    });
+
+    list.addEventListener('pointermove', (event) => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+    });
+
+    list.addEventListener('pointerleave', () => {
+      active = false;
+      preview.classList.remove('is-on');
+      cancelAnimationFrame(raf);
+      raf = 0;
+    });
+
+    // Touch taps shouldn't leave a ghost preview behind.
+    window.addEventListener('scroll', () => {
+      if (raf && !active) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    }, { passive: true });
+  }
+</script>

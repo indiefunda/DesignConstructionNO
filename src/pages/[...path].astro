@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import AboutView from '../views/AboutView.astro';
+import ContactView from '../views/ContactView.astro';
+import GalleryView from '../views/GalleryView.astro';
+import HomeView from '../views/HomeView.astro';
+import ServiceView from '../views/ServiceView.astro';
+import ServicesView from '../views/ServicesView.astro';
+import StaffView from '../views/StaffView.astro';
+import TermsView from '../views/TermsView.astro';
+import { copy } from '../data/copy';
+import { serviceById } from '../data/services';
+import { pageKeys, pathFor, site, type Lang, type PageKey, type ServiceId } from '../data/site';
+
+export function getStaticPaths() {
+  return site.languages.flatMap((lang) =>
+    pageKeys.map((key) => {
+      const path = pathFor(lang, key);
+      return {
+        params: { path: path === '/' ? undefined : path.slice(1) },
+        props: { lang, key },
+      };
+    }),
+  );
+}
+
+interface Props {
+  lang: Lang;
+  key: PageKey;
+}
+
+const { lang, key } = Astro.props;
+const c = copy[lang];
+
+const isService = key.startsWith('service:');
+const serviceId = isService ? (key.slice('service:'.length) as ServiceId) : null;
+const service = serviceId ? serviceById(serviceId) : null;
+
+const seo = service
+  ? { title: service.title[lang], description: service.lead[lang] }
+  : c.seo[key as keyof typeof c.seo];
+
+const ogImages: Record<Lang, string> = {
+  nb: '/og-nb.jpg',
+  en: '/og-en.jpg',
+  el: '/og-el.jpg',
+};
+---
+
+<Base
+  lang={lang}
+  title={seo.title}
+  description={seo.description}
+  overlay={key === 'home'}
+  image={ogImages[lang]}
+>
+  {key === 'home' && <HomeView lang={lang} />}
+  {key === 'about' && <AboutView lang={lang} />}
+  {key === 'services' && <ServicesView lang={lang} />}
+  {key === 'gallery' && <GalleryView lang={lang} />}
+  {key === 'terms' && <TermsView lang={lang} />}
+  {key === 'staff' && <StaffView lang={lang} />}
+  {key === 'contact' && <ContactView lang={lang} />}
+  {serviceId && <ServiceView lang={lang} id={serviceId} />}
+</Base>

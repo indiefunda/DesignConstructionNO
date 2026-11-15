@@ -1,0 +1,102 @@
+---
+import Icon from './Icon.astro';
+import Pic from './Pic.astro';
+import { copy } from '../data/copy';
+import { pathFor, site, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const h = copy[lang].home;
+const total = h.seal.length;
+---
+
+<section class="hero" data-hero>
+  <div class="wrap hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow hero__eyebrow eyebrow--bare">
+        <span class="hero__dot" aria-hidden="true"></span>
+        {h.eyebrow}
+      </p>
+
+      <h1 class="hero__title">
+        {
+          h.titleLines.map((line, index) => (
+            <span class="line-mask" style={`--d:${180 + index * 110}ms`}>
+              <span class={index === h.titleLines.length - 1 ? 'hero__last' : undefined}>
+                {index === h.titleLines.length - 1 ? <em>{line}</em> : line}
+              </span>
+            </span>
+          ))
+        }
+      </h1>
+
+      <p class="hero__lead">{h.lead}</p>
+
+      <div class="hero__cta">
+        <a class="btn btn--clay" href={pathFor(lang, 'contact')}>
+          {h.ctaPrimary}
+          <Icon name="arrow-up-right" size={14} />
+        </a>
+        <a class="link-arrow hero__secondary" href={pathFor(lang, 'services')}>
+          {h.ctaSecondary}
+          <Icon name="arrow-right" size={14} />
+        </a>
+      </div>
+    </div>
+
+    <aside class="hero__aside">
+      <figure class="hero__plate frame frame--ticks">
+        <Pic
+          name="hero-attic"
+          alt={copy[lang].home.featured.caption}
+          sizes="(max-width: 980px) 90vw, 40vw"
+          widths={[720, 1080, 1400]}
+          priority
+        />
+        <figcaption>
+          <span>{h.featured.caption}</span>
+          <span>01 / 08</span>
+        </figcaption>
+      </figure>
+
+      <div class="seal" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <defs>
+            <path id="sealPath" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" fill="none" />
+          </defs>
+          <text>
+            <textPath href="#sealPath" startOffset="0">{h.seal.repeat(2)}</textPath>
+          </text>
+        </svg>
+        <span class="seal__center">DC</span>
+      </div>
+
+      <ul class="hero__stats">
+        {
+          h.stats.map((stat) => (
+            <li>
+              <b>
+                {stat.value}
+                <i>{stat.unit}</i>
+              </b>
+              <span>{stat.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+  </div>
+
+  <div class="wrap">
+    <div class="hero__foot">
+      <span>{h.proof}</span>
+      <a class="hero__scroll" href="#main">
+        {copy[lang].ui.scroll}
+        <i aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</section>
