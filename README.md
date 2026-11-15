@@ -9,6 +9,14 @@ photography, no design system, no mobile-first layout. This repository replaces 
 with a single content model, two typefaces, a clay-and-bone palette and one
 consistent layout language across all 37 pages.
 
+![Homepage, desktop](docs/home-desktop.jpg)
+
+| Mobile | Menu | Gallery |
+| --- | --- | --- |
+| ![Homepage, mobile](docs/home-mobile.jpg) | ![Full-screen menu](docs/menu-mobile.jpg) | ![Gallery](docs/gallery.jpg) |
+
+Live: <https://designconstruction-no.web.app>
+
 ---
 
 ## Quick start
