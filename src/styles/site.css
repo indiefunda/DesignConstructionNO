@@ -348,6 +348,12 @@
   }
 }
 
+/* Over the dark hero the ink button would disappear — invert it. */
+.site-head:not(.is-solid):not(.site-head--static) .head__cta {
+  --btn-bg: var(--paper);
+  --btn-fg: var(--ink);
+}
+
 @media (max-width: 460px) {
   .brand__word {
     display: none;

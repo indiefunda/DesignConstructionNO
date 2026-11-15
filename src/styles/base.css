@@ -12,12 +12,13 @@
   --paper-2: #ebe4d6;
   --sand: #dcd2be;
 
-  /* Accents: fired clay from the trade, moss from the landscape */
-  --clay: #b4552c;
+  /* Accents: fired clay from the trade, moss from the landscape.
+     Clay and muted are tuned to clear WCAG AA on both paper tones. */
+  --clay: #a34722;
   --clay-soft: #cf7a51;
   --moss: #3e4a3c;
 
-  --muted: #6b6859;
+  --muted: #605d4f;
   --muted-dark: #a5a294;
 
   --line: rgb(14 15 12 / 13%);

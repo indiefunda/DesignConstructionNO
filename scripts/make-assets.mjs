@@ -9,7 +9,7 @@ import path from 'node:path';
 import { chromium } from 'playwright-core';
 
 const OUT = 'public';
-const CLAY = '#b4552c';
+const CLAY = '#a34722';
 const INK = '#0e0f0c';
 const PAPER = '#f4f0e7';
 

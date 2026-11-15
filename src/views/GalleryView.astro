@@ -48,10 +48,7 @@ const widthPlan: Record<string, number[]> = {
       <p class="gal-count">
         {String(projects.length).padStart(2, '0')} {g.countLabel}
       </p>
-      <a class="link-arrow" href={pathFor(lang, 'contact')}>
-        {c.ui.quote}
-        <Icon name="arrow-up-right" size={13} />
-      </a>
+      <p class="gal-count">{c.footer.place}</p>
     </div>
 
     <div class="gal" data-gal>
@@ -136,7 +133,6 @@ const widthPlan: Record<string, number[]> = {
 <Closer lang={lang} />
 
 <script>
-  const grid = document.querySelector<HTMLElement>('[data-gal]');
   const items = Array.from(document.querySelectorAll<HTMLElement>('[data-item]'));
   const visible = items.slice();
 

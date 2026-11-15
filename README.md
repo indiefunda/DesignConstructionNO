@@ -79,6 +79,22 @@ working (e.g. `/tjenester/snekring`, `/en/services/carpentry-works`,
 All three languages are generated from one route map in `src/data/site.ts`; adding
 a fourth language means adding one entry there plus one column in `copy.ts`.
 
+## Adding a project to the gallery
+
+1. Drop the photograph in `assets/source/` (JPG/PNG, ideally ≥1600 px wide).
+2. Add it to the `plan` map in `scripts/prepare-images.mjs`, e.g. `'kitchen-oslo': [620, 940, 1260]`.
+3. Run `npm run images`.
+4. Add an entry to `src/data/projects.ts` with the three captions and a `span`
+   (`wide`, `tall` or `normal`). The grid tiles itself; no CSS changes needed.
+
+## Adding a fourth language
+
+1. Add the code to `site.languages` and to `routes` in `src/data/site.ts`.
+2. Copy one block in `src/data/copy.ts`, `src/data/services.ts` and
+   `src/data/projects.ts` and translate it — TypeScript will point at every
+   missing key.
+3. Add the language to `ogImages` in `src/pages/[...path].astro`.
+
 ## Placeholders worth knowing
 
 These came from the old site and should be confirmed by the client:
