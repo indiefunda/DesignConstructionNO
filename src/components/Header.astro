@@ -29,7 +29,6 @@ const menuItems: { key: PageKey; label: string }[] = [
   ...items,
   { key: 'terms', label: c.termsPage.kicker },
 ];
-const otherLangs = (['nb', 'en', 'el'] as Lang[]).filter((l) => l !== lang);
 ---
 
 <header class:list={['site-head', { 'site-head--static': !overlay }]} data-head>
@@ -84,13 +83,18 @@ const otherLangs = (['nb', 'en', 'el'] as Lang[]).filter((l) => l !== lang);
       </a>
 
       <div class="lang" aria-label={c.ui.language}>
-        <span class="is-active" aria-current="true" lang={c.htmlLang}>{langCode[lang]}</span>
         {
-          otherLangs.map((l) => (
-            <a href={pathFor(l, key)} hreflang={l} lang={l} aria-label={copy[l].langName}>
-              {langCode[l]}
-            </a>
-          ))
+          (['nb', 'en', 'el'] as Lang[]).map((l) =>
+            l === lang ? (
+              <span class="is-active" aria-current="true" lang={l}>
+                {langCode[l]}
+              </span>
+            ) : (
+              <a href={pathFor(l, key)} hreflang={l} lang={l} aria-label={copy[l].langName}>
+                {langCode[l]}
+              </a>
+            ),
+          )
         }
       </div>
 
